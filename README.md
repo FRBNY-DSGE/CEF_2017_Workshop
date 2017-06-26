@@ -10,7 +10,7 @@ We assume that participants will have access to
 * [IJulia](https://github.com/JuliaLang/IJulia.jl) and [Jupyter notebooks](https://jupyter.org/)
 * [DSGE](https://github.com/FRBNY-DSGE/DSGE.jl)
 
-For those using their own machines, it's possible install all of this and more in one go by installing
+For those using their own machines, it's possible install all of this (except DSGE.jl) and more in one go by installing
 
 * [JuliaPro](http://juliacomputing.com/products/juliapro.html)
 
