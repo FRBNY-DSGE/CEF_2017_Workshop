@@ -23,4 +23,12 @@ Make sure that you have the latest version, which is currently JuliaPro
 * [Lectures](http://lectures.quantecon.org/) for learning Julia, or for economics concepts
 * [Discourse forum](http://discourse.quantecon.org/) for QuantEcon
 * [Discourse forum](http://discourse.julialang.org/) for Julia questions
-* [julia day](https://juliacomputing.com/blog/2016/11/01/Julia-Day-NY.html): videos with talks about Julia and finance
+* [Julia Day](https://juliacomputing.com/blog/2016/11/01/Julia-Day-NY.html): videos with talks about Julia and finance
+
+## Contact
+
+* Abhi Gupta (New York Fed): abhi.gupta@ny.frb.org
+* Pearl Li (New York Fed): pearl.li@ny.frb.org
+* Erica Moszkowski (New York Fed): erica.moszkowski@ny.frb.org
+* Chase Coleman (NYU Stern): cc7768@gmail.com
+* Spencer Lyon (NYU Stern): spencer.lyon@stern.nyu.edu
