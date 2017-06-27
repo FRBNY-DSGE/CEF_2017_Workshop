@@ -23,3 +23,4 @@ Make sure that you have the latest version, which is currently JuliaPro
 * [Lectures](http://lectures.quantecon.org/) for learning Julia, or for economics concepts
 * [Discourse forum](http://discourse.quantecon.org/) for QuantEcon
 * [Discourse forum](http://discourse.julialang.org/) for Julia questions
+* [julia day](https://juliacomputing.com/blog/2016/11/01/Julia-Day-NY.html): videos with talks about Julia and finance
