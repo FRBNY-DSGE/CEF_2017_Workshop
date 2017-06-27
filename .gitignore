@@ -1,1 +1,8 @@
+*.aux
 .ipynb_checkpoints/
+*.log
+*.nav
+*.out
+*.toc
+*.snm
+*.vrb
