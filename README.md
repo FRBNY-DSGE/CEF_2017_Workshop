@@ -21,4 +21,5 @@ Make sure that you have the latest version, which is currently JuliaPro
 
 * [Cheat sheets](http://cheatsheets.quantecon.org/) for MATLAB and Python users
 * [Lectures](http://lectures.quantecon.org/) for learning Julia, or for economics concepts
-* [Discourse forum](http://discourse.quantecon.org/) for Julia questions
+* [Discourse forum](http://discourse.quantecon.org/) for QuantEcon
+* [Discourse forum](http://discourse.julialang.org/) for Julia questions
