@@ -1,5 +1,15 @@
-function plot_actual!(p::Plots.Subplot, v::Float64)
+function plot_actual!(p::Plots.Subplot{Plots.GRBackend}, v::Float64)
     # Get y-axis limits
-    (y0, y1) = p.attr[:yaxis].d[:lims]
-    plot!(p, [v, v], [y0, y1], linewidth = 3, label = "Actual")
+    ylim = p.attr[:yaxis].d[:lims]
+    
+    # Plot actual value
+    plot!(p, [v, v], [ylim[1], ylim[2]], linewidth = 3, label = "", color = :black)
+end
+
+function plot_actual!(p::Plots.Subplot{Plots.PlotlyBackend}, v::Float64)
+    # Get y-axis limits
+    ylim = p.attr[:yaxis].d[:extrema]
+    
+    # Plot actual value
+    plot!(p, [v, v], [ylim.emin, ylim.emax], linewidth = 3, label = "", color = :black)
 end

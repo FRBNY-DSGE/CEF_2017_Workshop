@@ -1,5 +1,3 @@
-using DataStructures
-
 """
 ```
 MA1{T} <: AbstractModel{T}
@@ -8,8 +6,18 @@ MA1{T} <: AbstractModel{T}
 Implements the following MA(1) model:
 
 ```
-x_t = μ + u_t + α*u_{t-1}
+x_t = μ + u_t + β*u_{t-1}
 u_t ∼ N(0, σ^2)
+```
+
+This is represented as the following state-space model:
+
+```
+|u_t    | = |0 0| |u_{t-1}| + |1| |u_t|    (transition equation)
+|u_{t-1}|   |1 0| |u_{t-2}|   |0|
+
+|x_t|     = |1 β| |u_t    | + |μ|          (measurement equation)
+                  |u_{t-1}|
 ```
 """
 type MA1{T} <: AbstractModel{T}
@@ -151,70 +159,6 @@ function settings_ma1!(m::MA1)
     default_settings!(m)
 
     m <= Setting(:use_population_forecast, false, "Whether to use population forecasts as data")
-end
-
-function DSGE.eqcond(m::MA1)
-    endo = m.endogenous_states
-    exo  = m.exogenous_shocks
-    eq   = m.equilibrium_conditions
-
-    Γ0 = zeros(n_states(m), n_states(m))
-    Γ1 = zeros(n_states(m), n_states(m))
-    C  = zeros(n_states(m))
-    Ψ  = zeros(n_states(m), n_shocks_exogenous(m))
-    Π  = zeros(n_states(m), n_shocks_expectational(m))
-
-    # Γ0*s_t = Γ1*s_{t-1} + Ψ*ϵ_t + Π*η_t + C
-    # s_t = [u_t, u_{t-1}]'
-    # ϵ_t = [u_t]'
-
-    # Row 1: u_t = 0*u_{t-1} + 0*u_{t-2} + u_t
-    Γ0[eq[:eq_u_t], endo[:u_t]] = 1
-     Ψ[eq[:eq_u_t],  exo[:u_t]] = 1
-
-    # Row 2: u_{t-1} = u_{t-1} + 0 u_{t-2} + 0 u_t
-    Γ0[eq[:eq_u_t1], endo[:u_t1]] = 1
-    Γ1[eq[:eq_u_t1], endo[:u_t]] = 1
-
-    return Γ0, Γ1, C, Ψ, Π
-end
-
-function DSGE.measurement{T<:AbstractFloat}(m::MA1{T}, TTT::Matrix{T}, RRR::Matrix{T}, CCC::Vector{T};
-                                            shocks::Bool = false)
-    endo = m.endogenous_states # OrderedDict{Symbol, Int} mapping state names (e.g. `:u_t`) to indices
-    exo  = m.exogenous_shocks  # ... mapping shock names to indices
-    obs  = m.observables       # ... mapping observable names to indices
-
-    ZZ = zeros(n_observables(m), n_states(m))
-    DD = zeros(n_observables(m))
-    MM = zeros(n_observables(m), n_shocks_exogenous(m))
-    EE = zeros(n_observables(m), n_observables(m))
-    QQ = zeros(n_shocks_exogenous(m), n_shocks_exogenous(m))
-
-    # y_t = Z*s_t + D
-    # y_t = [x_t]'
-    # s_t = [u_t, u_{t-1}]'
-
-    # TODO: fill in entries of ZZ matrix
-    # x_t = μ + u_t + β*u_{t-1}
-    # DD[obs[:x_t]] = m[:μ]
-    # ZZ[obs[:x_t], ...] = ...
-
-    DD[obs[:x_t]] = m[:μ]
-    ZZ[obs[:x_t], endo[:u_t]]  = 1
-    ZZ[obs[:x_t], endo[:u_t1]] = m[:β]
-
-    # TODO: fill in entries of QQ matrix
-    # QQ[exo[:u_t], exo[:u_t]] = ...
-
-    QQ[exo[:u_t], exo[:u_t]] = m[:σ]^2
-
-    HH    = EE + MM*QQ*MM'
-    VV    = QQ*MM'
-    VVall = [[RRR*QQ*RRR' RRR*VV];
-             [VV'*RRR'    HH]]
-
-    return Measurement(ZZ, DD, QQ, EE, MM, VVall)
 end
 
 # This is an MA(1)-specific version of `solve` which we can use because MA(1)
